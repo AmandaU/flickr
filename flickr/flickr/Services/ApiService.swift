@@ -33,7 +33,7 @@ public class ImagesApi {
             .eraseToAnyPublisher() // 7
     }
     
-    func getImages(search: String) -> AnyPublisher<FlickrImages, Error>  {
+    func getImages(search: String, page: Int) -> AnyPublisher<FlickrImages, Error>  {
         //  var request = URLRequest(url:  URL(string: "https://jsonplaceholder.typicode.com/users")!)
         do {
         var urlComponents = URLComponents()
@@ -51,7 +51,7 @@ public class ImagesApi {
         items.append(URLQueryItem(name: "text", value: search))
         items.append(URLQueryItem(name: "format", value: "json"))
         items.append(URLQueryItem(name: "nojsoncallback", value: "1"))
-            items.append(URLQueryItem(name: "page", value: "1"))
+            items.append(URLQueryItem(name: "page", value: String(page)))
             items.append(URLQueryItem(name: "per_page", value: "10"))
         urlComponents.queryItems = items
         

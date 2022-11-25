@@ -14,6 +14,7 @@ import MapKit
 class ImagesStore: ObservableObject {
     @Published var images = [Photo]()
     @Published var loading = false
+    @Published var page = 1
     
     private let api: ImagesApi
     private var disposables = Set<AnyCancellable>()
@@ -35,7 +36,8 @@ class ImagesStore: ObservableObject {
     
     private func getImages(search: String) {
         loading = true
-        api.getImages(search: search)
+        page = 1
+        api.getImages(search: search, page: page)
             .sink(
                 receiveCompletion: { (completion) in
                     switch completion {
@@ -46,8 +48,30 @@ class ImagesStore: ObservableObject {
                     }
                 },
                 receiveValue: {
-                    self.images = $0.photos.photo.map({Photo(dto: $0)})
+                    self.images = $0.photos.photo
                     self.loading = false
+                })
+            .store(in: &self.disposables)
+    }
+    
+    func getNextPage(search: String) {
+        if search.isEmpty {
+            page = 1
+            return
+        }
+        page += 1
+        api.getImages(search: search, page: page)
+            .sink(
+                receiveCompletion: { (completion) in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error ):
+                        print(error)
+                    }
+                },
+                receiveValue: {
+                    self.images.append(contentsOf: $0.photos.photo)
                 })
             .store(in: &self.disposables)
     }

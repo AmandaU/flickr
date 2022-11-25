@@ -36,7 +36,8 @@ public struct SearchBarView: View {
                 .buttonStyle(.plain)
             }
         }
-        .padding(8)
+        .padding(.vertical, 8)
+        .padding(.vertical, 4)
         .background(
             RoundedRectangle(cornerRadius: 8)
                 .fill(Color.gray.opacity(0.12))

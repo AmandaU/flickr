@@ -8,6 +8,15 @@
 import Foundation
 import SwiftUI
 
+struct ScrollViewOffsetPreferenceKey: PreferenceKey {
+    static var defaultValue: CGFloat = .zero
+    
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
+}
+
+
 struct HomeView: View {
     @EnvironmentObject var store: ImagesStore
     @State var searchText: String = ""
@@ -26,22 +35,31 @@ struct HomeView: View {
                     }) .padding()
                     
                     VStack {
-                        LazyVGrid(columns: columns, spacing: Device.isIPhone ? 0 : 16) {
-                            ForEach(store.images, id: \.id) { photo in
-                                PhotoView(photo: photo)
+                    
+                            LazyVGrid(columns: columns, spacing: Device.isIPhone ? 0 : 16) {
+                              
+                                ForEach(store.images, id: \.id) { photo in
+                                    PhotoView(photo: photo)
+                                }
+                                if  !store.images.isEmpty {
+                                    ProgressView()
+                                        .frame(width: 0, height: 0, alignment: .bottom)
+                                        .onAppear {
+                                            store.page += 1
+                                            self.store.getNextPage(search: searchText)
+                                        }
+                                }
                             }
-                        }
+                       
                         Spacer()
                     }
                     .padding()
-                    
                 }
                 if store.loading {
                     VStack {
                         ProgressView()
                     }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 }
-                
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             .background(Color.black.opacity(0.05)).edgesIgnoringSafeArea(.bottom)
@@ -65,7 +83,7 @@ private struct PhotoView: View {
     }
     
     var body: some View {
-       
+        
         AsyncImage(url: url) { image in
             image
                 .resizable()
@@ -75,7 +93,7 @@ private struct PhotoView: View {
                 ProgressView()
             }
             .background(Color.black.opacity(0.05))
-                .cornerRadius(10)
+            .cornerRadius(10)
         }
         .frame(width: width, height: width)
         .cornerRadius(10)
