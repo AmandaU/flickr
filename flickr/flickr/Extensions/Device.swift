@@ -43,3 +43,23 @@ public struct Device {
     }
    
 }
+
+public extension UIDevice {
+    
+    var currentPerspectiveWidth: CGFloat {
+#if targetEnvironment(macCatalyst)
+        return UIScreen.main.bounds.height
+#else
+        if let interfaceOrientation = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.windowScene?.interfaceOrientation {
+            if interfaceOrientation.isLandscape, (UIScreen.main.bounds.width < UIScreen.main.bounds.height) {
+                
+                return UIScreen.main.bounds.height
+            } else {
+                return UIScreen.main.bounds.width
+            }
+        }
+        return UIScreen.main.bounds.width
+#endif
+        
+    }
+}
