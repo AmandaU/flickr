@@ -121,7 +121,6 @@
 				AA1957022930BDE000939388 /* Info.plist */,
 				AA5F6C44292FA91D00C6EDF0 /* Enums */,
 				AA5F6C41292FA8C400C6EDF0 /* Extensions */,
-				AA5F6C3C292F9FEC00C6EDF0 /* New Group */,
 				AA5F6C39292F9E9D00C6EDF0 /* Models */,
 				AA5F6C36292F9E7D00C6EDF0 /* Services */,
 				AA5F6C2F292F971C00C6EDF0 /* Views */,
@@ -185,13 +184,6 @@
 				AA5F6C3A292F9EA800C6EDF0 /* FlickrImage.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		AA5F6C3C292F9FEC00C6EDF0 /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group";
 			sourceTree = "<group>";
 		};
 		AA5F6C41292FA8C400C6EDF0 /* Extensions */ = {

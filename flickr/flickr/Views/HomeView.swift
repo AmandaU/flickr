@@ -10,11 +10,10 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var store: ImagesStore
-    @State var searchText: String = ""
     @State var update = false
-    
+    @State var searchText = ""
     @State var orientation = UIDevice.current.orientation
-
+    
     var columns: [GridItem] {
         var number = 0
         if Device.isMacCatalyst {
@@ -32,7 +31,7 @@ struct HomeView: View {
     
     var body: some View {
         
-        if Device.isIPhone {
+        // if Device.isIPhone {
              NavigationView {
                 VStack {
                     main
@@ -42,26 +41,34 @@ struct HomeView: View {
                 .navigationBarHidden(false)
                 .navigationBarTitle(Text("Flickr Images"))
              }
-        } else {
-                VStack {
-                    main
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                .background(Color.black.opacity(0.05)).edgesIgnoringSafeArea(.bottom)
-                .navigationBarHidden(false)
-                .navigationBarTitle(Text("Flickr Images"))
-        }
+//             .searchable(text:  $searchText) {
+//                 ForEach(self.history, id: \.self) { search in
+//                     Text(search).searchCompletion(search)
+//                 }
+//             }
+//             .onChange(of: searchText) { searchText in
+//                 self.store.doSearch(searchText)
+//             }
+            
+//        } else {
+//                VStack {
+//
+//                    main
+//                }
+//                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+//                .background(Color.black.opacity(0.05)).edgesIgnoringSafeArea(.bottom)
+//                .navigationBarHidden(false)
+//                .navigationBarTitle(Text("Flickr Images"))
+//
+//        }
     }
     
     var main: some View {
         ZStack {
             ScrollView {
-                
-                SearchBarView( $searchText.onChange { searchText in
-                    self.store.doSearch(searchText)
-                }) .padding(.vertical)
+                SearchBarView($searchText)
+                    .padding(.vertical)
                     .appropriatePlatformWidth()
-                
                 VStack {
                 
                         LazyVGrid(columns: columns) {
