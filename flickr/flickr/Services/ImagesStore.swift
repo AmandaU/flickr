@@ -12,12 +12,16 @@ import SwiftUI
 import MapKit
 
 class ImagesStore: ObservableObject {
-    @Published var images = FlickrImages()
-    var cancellationToken: AnyCancellable?
+    @Published var images = [Photo]()
+    @Published var loading = false
+    
+    private let api: ImagesApi
     private var disposables = Set<AnyCancellable>()
+    var cancellationToken: AnyCancellable?
     private let searchImagesSubject = CurrentValueSubject<String, Never>("")
     
-    public init() {
+    public init(api: ImagesApi = ImagesApi()) {
+        self.api = api
         self.searchImagesSubject
             .removeDuplicates()
             .debounce(for: 0.5, scheduler: RunLoop.main)
@@ -30,7 +34,8 @@ class ImagesStore: ObservableObject {
     }
     
     private func getImages(search: String) {
-        cancellationToken = ImagesApi.getImages(search: search)
+        loading = true
+        api.getImages(search: search)
             .sink(
                 receiveCompletion: { (completion) in
                     switch completion {
@@ -41,8 +46,10 @@ class ImagesStore: ObservableObject {
                     }
                 },
                 receiveValue: {
-                    self.images = $0
+                    self.images = $0.photos.photo.map({Photo(dto: $0)})
+                    self.loading = false
                 })
+            .store(in: &self.disposables)
     }
     
     func doSearch(_ search: String) {
@@ -50,7 +57,7 @@ class ImagesStore: ObservableObject {
     }
     
     func getImage(photo: Photo,  onDone: @escaping (UIImage?) -> Void) {
-        cancellationToken = getPicture(photo: photo)
+        getPicture(photo: photo)
             .sink(
                 receiveCompletion: { (completion) in
                     switch completion {
@@ -63,21 +70,6 @@ class ImagesStore: ObservableObject {
                 receiveValue: { image in
                     onDone(image)
                 })
-    }
-    
-    
-     func getPicture(photo: Photo) -> AnyPublisher<UIImage?, Error> {
-//         var url = URLRequest(url:  URL(string: "https://farm\(photo.farm).static.flickr.com/\(photo.server)/\(photo.id)_\(photo.secret).jpg")!)
-         var url =  "https://farm\(photo.farm).static.flickr.com/\(photo.server)/\(photo.id)_\(photo.secret).jpg"
-//        return ImagesApi.getImageUrl(photo: photo)
-//            .flatMap({ (url : String) -> AnyPublisher<UIImage?, Error> in
-                return ImagesApi.getImage(url: url)
-                    .map({ (data: Data) in
-                        return UIImage(data: data)
-                    })
-                    .eraseToAnyPublisher()
-//            })
-//            .eraseToAnyPublisher()
     }
     
 }

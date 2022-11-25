@@ -23,7 +23,6 @@
 		AA5F6C43292FA8D400C6EDF0 /* BindingExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5F6C42292FA8D400C6EDF0 /* BindingExtension.swift */; };
 		AA5F6C48292FAC3200C6EDF0 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5F6C47292FAC3200C6EDF0 /* Errors.swift */; };
 		AA5F6C4A292FBE6800C6EDF0 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5F6C49292FBE6800C6EDF0 /* Device.swift */; };
-		AA5F6C4C292FCF0F00C6EDF0 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5F6C4B292FCF0F00C6EDF0 /* LoadingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,7 +63,6 @@
 		AA5F6C42292FA8D400C6EDF0 /* BindingExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BindingExtension.swift; sourceTree = "<group>"; };
 		AA5F6C47292FAC3200C6EDF0 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		AA5F6C49292FBE6800C6EDF0 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
-		AA5F6C4B292FCF0F00C6EDF0 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,7 +159,6 @@
 				AA5F6C32292F979200C6EDF0 /* HomeView.swift */,
 				AA5F6C34292F992300C6EDF0 /* LaunchStateManager.swift */,
 				AA5F6C3F292FA76500C6EDF0 /* SearchView.swift */,
-				AA5F6C4B292FCF0F00C6EDF0 /* LoadingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -338,7 +335,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA5F6C4A292FBE6800C6EDF0 /* Device.swift in Sources */,
-				AA5F6C4C292FCF0F00C6EDF0 /* LoadingView.swift in Sources */,
 				AA5F6C3B292F9EA800C6EDF0 /* FlickrImage.swift in Sources */,
 				AA5F6C40292FA76500C6EDF0 /* SearchView.swift in Sources */,
 				AA5F6C38292F9E8B00C6EDF0 /* ImagesStore.swift in Sources */,

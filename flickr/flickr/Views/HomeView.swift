@@ -12,75 +12,73 @@ struct HomeView: View {
     @EnvironmentObject var store: ImagesStore
     @State var searchText: String = ""
     
-    private let columns = Array(repeating: GridItem(.flexible(), spacing: 16, alignment: .trailing), count: Device.isIPhone ? 2 : 3)
+    private let columns = Array(repeating: GridItem(.flexible(), spacing: Device.isIPhone ? 8 : 16, alignment: .trailing), count: Device.isIPhone ? 2 : 3)
     
     var body: some View {
         
         NavigationView {
-            VStack {
+            
+            ZStack {
                 ScrollView {
+                    
+                    SearchBarView( $searchText.onChange { searchText in
+                        self.store.doSearch(searchText)
+                    }) .padding()
+                    
                     VStack {
-                        SearchBarView( $searchText.onChange { searchText in
-                            self.store.doSearch(searchText)
-                        })
-                        .padding()
-                        
                         LazyVGrid(columns: columns, spacing: Device.isIPhone ? 0 : 16) {
-                            ForEach(store.images.photos.photo, id: \.id) { photo in
-                                
-                                ImageView(photo: photo)
+                            ForEach(store.images, id: \.id) { photo in
+                                PhotoView(photo: photo)
                             }
                         }
-                        
                         Spacer()
                     }
+                    .padding()
+                    
                 }
+                if store.loading {
+                    VStack {
+                        ProgressView()
+                    }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                }
+                
             }
-            .background(Color.black.opacity(0.1)).edgesIgnoringSafeArea(.bottom)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            .background(Color.black.opacity(0.05)).edgesIgnoringSafeArea(.bottom)
             .navigationBarHidden(false)
             .navigationBarTitle(Text("Flickr Images"))
             .toolbarBackground( Color.white, for: .navigationBar)
         }
-        
-        
     }
-    
 }
 
-private struct ImageView: View {
+private struct PhotoView: View {
     @EnvironmentObject var store: ImagesStore
     @State var photo: Photo
-    @State var image: UIImage?
-    @State var loaded = false
     
     var width: CGFloat {
-        return Device.isIPhone ? (UIScreen.main.bounds.width/2) - 40 : 300
+        return Device.isIPhone ? (UIScreen.main.bounds.width/2) - 20 : 300
+    }
+    
+    var url: URL {
+        URL(string: "https://farm\(photo.farm).static.flickr.com/\(photo.server)/\(photo.id)_\(photo.secret)_q.jpg")!
     }
     
     var body: some View {
-        
-        LoadingView(isShowing: .constant(!loaded)) {
-            HStack {
-                
-                if let image = image {
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(maxWidth: width, maxHeight: width)
-                }
+       
+        AsyncImage(url: url) { image in
+            image
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+        } placeholder: {
+            VStack {
+                ProgressView()
             }
+            .background(Color.black.opacity(0.05))
+                .cornerRadius(10)
         }
         .frame(width: width, height: width)
-        .background(Color.white)
-        .cornerRadius(14)
-        .padding()
-        .onAppear {
-            
-            store.getImage(photo: photo) { image in
-                    self.image = image
-                    self.loaded = true
-            }
-        }
+        .cornerRadius(10)
+        .padding(.bottom, 8)
     }
 }
-

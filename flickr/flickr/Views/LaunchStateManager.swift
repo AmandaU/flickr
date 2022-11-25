@@ -13,7 +13,6 @@ enum LaunchScreenStep {
     case finished
 }
 
-
 final class LaunchScreenStateManager: ObservableObject {
     @MainActor
     @Published private(set) var state: LaunchScreenStep = .firstStep

@@ -20,7 +20,7 @@ struct FlickrImages: Codable {
 // MARK: - Photos
 struct Photos: Codable {
     let page, pages, perpage, total: Int
-    let photo: [Photo]
+    let photo: [PhotoDTO]
     
     init() {
         self.photo = []
@@ -32,9 +32,28 @@ struct Photos: Codable {
 }
 
 // MARK: - Photo
-struct Photo: Codable {
+struct PhotoDTO: Codable {
     let id, owner, secret, server: String
     let farm: Int
     let title: String
     let ispublic, isfriend, isfamily: Int
+}
+
+struct Photo {
+    let id, owner, secret, server: String
+    let farm: Int
+    let title: String
+    let ispublic, isfriend, isfamily: Int
+    
+    init(dto: PhotoDTO) {
+        self.id = dto.id
+        self.owner = dto.owner
+        self.secret = dto.secret
+        self.server = dto.server
+        self.farm = dto.farm
+        self.title = dto.title
+        self.ispublic = dto.ispublic
+        self.isfriend = dto.isfriend
+        self.isfamily = dto.isfamily
+    }
 }
