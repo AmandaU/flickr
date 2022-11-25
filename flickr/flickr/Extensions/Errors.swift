@@ -11,4 +11,5 @@ enum APIError: Error {
   case invalidURL
     case invalidHTTPURLResponse
     case responseStatusError
+    case invalidAPIKey
 }

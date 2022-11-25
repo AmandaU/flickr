@@ -56,20 +56,5 @@ class ImagesStore: ObservableObject {
         self.searchImagesSubject.send(search)
     }
     
-    func getImage(photo: Photo,  onDone: @escaping (UIImage?) -> Void) {
-        getPicture(photo: photo)
-            .sink(
-                receiveCompletion: { (completion) in
-                    switch completion {
-                    case .finished:
-                        break
-                    case .failure(let error ):
-                        print(error)
-                    }
-                },
-                receiveValue: { image in
-                    onDone(image)
-                })
-    }
-    
+   
 }

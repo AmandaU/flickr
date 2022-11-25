@@ -40,10 +40,14 @@ public class ImagesApi {
         urlComponents.scheme = "https"
         urlComponents.host = "www.flickr.com"
         urlComponents.path = "/services/rest"
+            
+            guard let apiKey = Bundle.main.infoDictionary?["API_KEY"] as? String else {
+                throw APIError.invalidAPIKey
+            }
         
         var items = [URLQueryItem]()
         items.append(URLQueryItem(name: "method", value: "flickr.photos.search"))
-        items.append(URLQueryItem(name: "api_key", value: "992e2fc8c28a0602d12cae83ebc1913f"))
+        items.append(URLQueryItem(name: "api_key", value: apiKey))
         items.append(URLQueryItem(name: "text", value: search))
         items.append(URLQueryItem(name: "format", value: "json"))
         items.append(URLQueryItem(name: "nojsoncallback", value: "1"))

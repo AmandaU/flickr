@@ -43,6 +43,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AA1957012930BD2200939388 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		AA1957022930BDE000939388 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		AA5F6C01292F95D400C6EDF0 /* flickr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = flickr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA5F6C04292F95D400C6EDF0 /* flickrApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = flickrApp.swift; sourceTree = "<group>"; };
 		AA5F6C08292F95D500C6EDF0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 		AA5F6C03292F95D400C6EDF0 /* flickr */ = {
 			isa = PBXGroup;
 			children = (
+				AA1957022930BDE000939388 /* Info.plist */,
 				AA5F6C44292FA91D00C6EDF0 /* Enums */,
 				AA5F6C41292FA8C400C6EDF0 /* Extensions */,
 				AA5F6C3C292F9FEC00C6EDF0 /* New Group */,
@@ -123,6 +126,7 @@
 				AA5F6C08292F95D500C6EDF0 /* Assets.xcassets */,
 				AA5F6C0A292F95D500C6EDF0 /* flickr.entitlements */,
 				AA5F6C0B292F95D500C6EDF0 /* Preview Content */,
+				AA1957012930BD2200939388 /* Config.xcconfig */,
 			);
 			path = flickr;
 			sourceTree = "<group>";
@@ -492,6 +496,7 @@
 		};
 		AA5F6C27292F95D500C6EDF0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AA1957012930BD2200939388 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -504,6 +509,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = flickr/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -535,6 +542,7 @@
 		};
 		AA5F6C28292F95D500C6EDF0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AA1957012930BD2200939388 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -547,6 +555,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = flickr/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
