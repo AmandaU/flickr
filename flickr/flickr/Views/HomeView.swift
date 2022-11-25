@@ -8,15 +8,6 @@
 import Foundation
 import SwiftUI
 
-struct ScrollViewOffsetPreferenceKey: PreferenceKey {
-    static var defaultValue: CGFloat = .zero
-    
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = nextValue()
-    }
-}
-
-
 struct HomeView: View {
     @EnvironmentObject var store: ImagesStore
     @State var searchText: String = ""
@@ -29,21 +20,20 @@ struct HomeView: View {
         if Device.isMacCatalyst {
             number = 3
         } else if orientation == .unknown {
-            number =  UIScreen.main.bounds.width > UIScreen.main.bounds.height ? 3 : 2
+            number = UIScreen.main.bounds.width > UIScreen.main.bounds.height ? 3 : 2
         } else if orientation.isLandscape {
             number = 3
         } else {
             number = 2
         }
         let spacing = CGFloat(number * 4)
-       return  Array(repeating: GridItem(.flexible(), spacing: spacing, alignment: .trailing), count: number)
+        return  Array(repeating: GridItem(.flexible(), spacing: spacing, alignment: .trailing), count: number)
      }
     
     var body: some View {
         
         if Device.isIPhone {
-            NavigationView {
-                
+             NavigationView {
                 VStack {
                     main
                 }
@@ -51,9 +41,8 @@ struct HomeView: View {
                 .background(Color.black.opacity(0.05)).edgesIgnoringSafeArea(.bottom)
                 .navigationBarHidden(false)
                 .navigationBarTitle(Text("Flickr Images"))
-            }
+             }
         } else {
-                
                 VStack {
                     main
                 }
@@ -62,7 +51,6 @@ struct HomeView: View {
                 .navigationBarHidden(false)
                 .navigationBarTitle(Text("Flickr Images"))
         }
-       
     }
     
     var main: some View {
@@ -77,7 +65,6 @@ struct HomeView: View {
                 VStack {
                 
                         LazyVGrid(columns: columns) {
-                          
                             ForEach(store.images, id: \.id) { photo in
                                 PhotoView(photo: photo)
                             }
@@ -110,23 +97,6 @@ struct HomeView: View {
 private struct PhotoView: View {
     @EnvironmentObject var store: ImagesStore
     @State var photo: Photo
-    @State var orientation = UIDevice.current.orientation
-    
-    var width: CGFloat {
-       if Device.isMacCatalyst {
-            return CGFloat((Int(UIDevice.current.currentPerspectiveWidth)/3) - 30)
-        } else if orientation == .unknown {
-            if  UIScreen.main.bounds.width > UIScreen.main.bounds.height {
-                return CGFloat((Int(UIDevice.current.currentPerspectiveWidth)/3) - (Device.isIPhone ? 60 : 30))
-            } else {
-                return CGFloat((Int(UIDevice.current.currentPerspectiveWidth)/2) - 20)
-            }
-        }  else if orientation.isLandscape {
-                return CGFloat((Int(UIDevice.current.currentPerspectiveWidth)/3) - (Device.isIPhone ? 60 : 30))
-        } else {
-            return CGFloat((Int(UIDevice.current.currentPerspectiveWidth)/2) - 20)
-        }
-    }
     
     var url: URL {
         URL(string: "https://farm\(photo.farm).static.flickr.com/\(photo.server)/\(photo.id)_\(photo.secret)_q.jpg")!
@@ -145,12 +115,7 @@ private struct PhotoView: View {
             .background(Color.black.opacity(0.05))
             .cornerRadius(10)
         }
-        .frame(width: width, height: width)
         .cornerRadius(10)
         .padding(.bottom, 8)
-        .onRotate { orientation in
-            self.orientation = UIDevice.current.orientation
-        }
-       
     }
 }
