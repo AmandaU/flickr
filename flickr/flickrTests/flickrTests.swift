@@ -6,9 +6,14 @@
 //
 
 import XCTest
+import Combine
 
 final class flickrTests: XCTestCase {
-
+    private var cancellables: Set<AnyCancellable> = []
+    var error = ""
+    let store = ImagesStore()
+    let dummystore = ImagesStore(api: DummyAPI())
+   
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -31,5 +36,29 @@ final class flickrTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
+    
+    func testGetPhotosSuccess() {
+        let validation = expectation(description: "FullFill")
+       
+        store.photosFetched.sink { [weak self] error in
+                   validation.fulfill()
+               }.store(in: &cancellables)
 
+        self.waitForExpectations(timeout: 20) { error in
+            XCTAssertTrue(!self.store.images.isEmpty)
+        }
+    }
+
+    func testGetPhotosFailure() {
+        let validation = expectation(description: "FullFill")
+       
+        dummystore.photosFetched.sink { [weak self] error in
+            self?.error = error ?? ""
+            validation.fulfill()
+        }.store(in: &cancellables)
+
+        self.waitForExpectations(timeout: 20) { error in
+            XCTAssertFalse(self.error.isEmpty)
+        }
+    }
 }

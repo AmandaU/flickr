@@ -15,6 +15,7 @@ import Combine
 struct FullImageView: View {
     @EnvironmentObject var store: ImagesStore
     @Environment(\.presentationMode) var presentationMode
+    
     @State var photo: Photo
     @State private var showShareSheet = false
     @State var image = UIImage()
@@ -31,10 +32,11 @@ struct FullImageView: View {
                     image
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        
+                    
                 } placeholder: {
                     Text("")
                 }
+                .accessibilityIdentifier("fullImage")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 
             }
@@ -42,7 +44,7 @@ struct FullImageView: View {
             .navigationBarTitle(photo.title, displayMode: .inline)
             .navigationBarItems(leading: backButton, trailing: shareButton)
             .sheet(isPresented: $showShareSheet) {
-                    ShareSheetView(activityItems: [image])
+                ShareSheetView(activityItems: [image])
             }
             .onAppear {
                 store.downloadImage(from: url) { image in

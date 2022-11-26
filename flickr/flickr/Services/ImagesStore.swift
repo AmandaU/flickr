@@ -18,13 +18,14 @@ class ImagesStore: ObservableObject {
     @Published var searchText = ""
     @Published var history: [String] = []
     
-    private let api: ImagesApi
+    let photosFetched = PassthroughSubject<String?, Never>()
+    private let api: APIProtocol
     private var disposables = Set<AnyCancellable>()
     var cancellationToken: AnyCancellable?
     private let searchImagesSubject = CurrentValueSubject<String, Never>("")
     private let cacheSearch = "SEARCH"
     
-    public init(api: ImagesApi = ImagesApi()) {
+    public init(api: APIProtocol = ImagesApi()) {
         self.api = api
         self.searchImagesSubject
             .removeDuplicates()
@@ -37,7 +38,7 @@ class ImagesStore: ObservableObject {
         loadLocal()
     }
     
-    private func getImages(search: String) {
+    func getImages(search: String) {
         loading = true
         page = 1
         saveLocal(search: search)
@@ -49,12 +50,14 @@ class ImagesStore: ObservableObject {
                         break
                     case .failure(let error ):
                         print(error)
+                        self.photosFetched.send(error.localizedDescription)
                     }
                 },
                 receiveValue: {
                     self.images = $0.photos.photo
                     self.loading = false
                     self.history = []
+                    self.photosFetched.send(self.images.isEmpty ? "There are currenty no Flickr images to display" : nil)
                 })
             .store(in: &self.disposables)
     }

@@ -36,7 +36,6 @@ public extension View {
     }
 }
 
-
 struct DeviceRotationViewModifier: ViewModifier {
     let action: (UIDeviceOrientation) -> Void
 

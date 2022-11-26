@@ -147,6 +147,7 @@ private struct PhotoView: View {
         .fullScreenCover(isPresented: $showFullImage) {
            FullImageView(photo: photo)
         }
+        .accessibilityIdentifier("photoButton")
 
        
     }

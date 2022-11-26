@@ -9,8 +9,9 @@ import Foundation
 import Combine
 import UIKit
 
-public class ImagesApi {
-    private let apiEndPoint: String = "www.flickr.com"
+public class ImagesApi: APIProtocol {
+    
+    let apiEndPoint: String = "www.flickr.com"
  
     struct Response<T> {
         let value: T
@@ -41,9 +42,9 @@ public class ImagesApi {
         urlComponents.host = "www.flickr.com"
         urlComponents.path = "/services/rest"
             
-            guard let apiKey = Bundle.main.infoDictionary?["API_KEY"] as? String else {
-                throw APIError.invalidAPIKey
-            }
+        guard let apiKey = Bundle.main.infoDictionary?["API_KEY"] as? String else {
+            throw APIError.invalidAPIKey
+        }
         
         var items = [URLQueryItem]()
         items.append(URLQueryItem(name: "method", value: "flickr.photos.search"))
