@@ -32,60 +32,67 @@ struct HomeView: View {
     var body: some View {
         
         if Device.isIPhone {
-            NavigationView {
-                ZStack {
-                    ScrollView {
-                        SearchBarView($searchText)
-                            .padding(.vertical)
-                            .appropriatePlatformWidth()
-                       photoGrid
-                    }
-                    if store.loading {
-                        ProgressView()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                    }
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                .background(Color.black.opacity(0.05)).edgesIgnoringSafeArea(.bottom)
-                .navigationBarHidden(false)
-                .navigationBarTitle("Flickr Images")
-                .onRotate { orientation in
-                    self.orientation = UIDevice.current.orientation
-                }
-            }
-            .onAppear {
-                store.loadLocal()
-            }
-            
+            phoneView
         } else {
-            
-            NavigationView {
-                VStack {
+            tabletView
+        }
+    }
+    
+    var phoneView: some View {
+        NavigationView {
+            ZStack {
+                ScrollView {
                     SearchBarView($searchText)
-                        .padding()
-                    Spacer()
+                        .padding(.vertical)
+                        .appropriatePlatformWidth()
+                   photoGrid
                 }
-                   ZStack {
-                        ScrollView {
-                            photoGrid
-                        }
-                        if store.loading {
-                            ProgressView()
-                                .frame(maxWidth: .infinity, alignment: .center)
-                        }
-                    }
-                   .navigationBarHidden(false)
-                   .navigationBarTitle("Flickr Images", displayMode: .inline)
+                if store.loading {
+                    ProgressView()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             .background(Color.black.opacity(0.05)).edgesIgnoringSafeArea(.bottom)
+            .navigationBarHidden(false)
+            .navigationBarTitle("Flickr Images")
            
-            .onRotate { orientation in
-                self.orientation = UIDevice.current.orientation
+        }
+        .onRotate { orientation in
+            self.orientation = UIDevice.current.orientation
+        }
+        .onAppear {
+            store.loadLocal()
+        }
+    }
+    
+    var tabletView: some View {
+        NavigationView {
+            VStack {
+                SearchBarView($searchText)
+                    .padding()
+                Spacer()
             }
-            .onAppear {
-                store.loadLocal()
-            }
+               ZStack {
+                    ScrollView {
+                        photoGrid
+                    }
+                    if store.loading {
+                        ProgressView()
+                            .frame(maxWidth: .infinity, alignment: .center)
+                    }
+                }
+               .navigationBarHidden(false)
+               .navigationBarTitle("Flickr Images", displayMode: .inline)
+               
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        .background(Color.black.opacity(0.05)).edgesIgnoringSafeArea(.bottom)
+        .onRotate { orientation in
+            self.orientation = UIDevice.current.orientation
+        }
+        .onAppear {
+            store.loadLocal()
         }
     }
     
@@ -116,21 +123,31 @@ struct HomeView: View {
 private struct PhotoView: View {
     @EnvironmentObject var store: ImagesStore
     @State var photo: Photo
-    
+    @State var showFullImage = false
+   
     var url: URL {
         URL(string: "https://farm\(photo.farm).static.flickr.com/\(photo.server)/\(photo.id)_\(photo.secret)_q.jpg")!
     }
     
     var body: some View {
        
-        AsyncImage(url: url) { image in
-            image
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-        } placeholder: {
-           Text("")
+        Button {
+            showFullImage = true
+        } label: {
+            AsyncImage(url: url) { image in
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+            } placeholder: {
+               Text("")
+            }
+            .cornerRadius(10)
+            .padding(.bottom, 8)
         }
-        .cornerRadius(10)
-        .padding(.bottom, 8)
+        .fullScreenCover(isPresented: $showFullImage) {
+           FullImageView(photo: photo)
+        }
+
+       
     }
 }
