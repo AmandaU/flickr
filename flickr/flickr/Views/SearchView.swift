@@ -55,7 +55,7 @@ public struct SearchBarView: View {
             .padding(.vertical, 8)
             .padding(.horizontal, 4)
             .background(
-                RoundedRectangle(cornerRadius: 8)
+                RoundedRectangle(cornerRadius: 12)
                     .fill(Color.gray.opacity(0.12))
             )
             VStack {
@@ -73,13 +73,12 @@ public struct SearchBarView: View {
                         self.text = search
                     } label: {
                         Text(search)
+                            .foregroundColor(.black)
                     }
                     Divider()
-
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
-       
     }
 }

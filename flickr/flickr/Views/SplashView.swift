@@ -16,18 +16,19 @@ struct LaunchScreenView: View {
     
     @ViewBuilder
     private var image: some View {  // Mark 3
-        Image(systemName: "hurricane")
+        Image("Splash")
             .resizable()
             .scaledToFit()
-            .frame(width: 100, height: 100)
+            .frame(width: 300, height: 300)
             .rotationEffect(firstAnimation ? Angle(degrees: 900) : Angle(degrees: 1800)) // Mark 4
             .scaleEffect(secondAnimation ? 0 : 1) // Mark 4
             .offset(y: secondAnimation ? 400 : 0) // Mark 4
+            .shadow(color: Color("Flickr"), radius: 50, x: 5, y: 25)
     }
     
     @ViewBuilder
     private var backgroundColor: some View {  // Mark 3
-        Color.orange.ignoresSafeArea()
+        Color.white.ignoresSafeArea()
     }
     
     private let animationTimer = Timer // Mark 5

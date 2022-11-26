@@ -27,78 +27,90 @@ struct HomeView: View {
         }
         let spacing = CGFloat(number * 4)
         return  Array(repeating: GridItem(.flexible(), spacing: spacing, alignment: .trailing), count: number)
-     }
+    }
     
     var body: some View {
         
-        // if Device.isIPhone {
-             NavigationView {
-                VStack {
-                    main
+        if Device.isIPhone {
+            NavigationView {
+                ZStack {
+                    ScrollView {
+                        SearchBarView($searchText)
+                            .padding(.vertical)
+                            .appropriatePlatformWidth()
+                       photoGrid
+                    }
+                    if store.loading {
+                        ProgressView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                    }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 .background(Color.black.opacity(0.05)).edgesIgnoringSafeArea(.bottom)
                 .navigationBarHidden(false)
-                .navigationBarTitle(Text("Flickr Images"))
-             }
-//             .searchable(text:  $searchText) {
-//                 ForEach(self.history, id: \.self) { search in
-//                     Text(search).searchCompletion(search)
-//                 }
-//             }
-//             .onChange(of: searchText) { searchText in
-//                 self.store.doSearch(searchText)
-//             }
+                .navigationBarTitle("Flickr Images")
+                .onRotate { orientation in
+                    self.orientation = UIDevice.current.orientation
+                }
+            }
+            .onAppear {
+                store.loadLocal()
+            }
             
-//        } else {
-//                VStack {
-//
-//                    main
-//                }
-//                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-//                .background(Color.black.opacity(0.05)).edgesIgnoringSafeArea(.bottom)
-//                .navigationBarHidden(false)
-//                .navigationBarTitle(Text("Flickr Images"))
-//
-//        }
-    }
-    
-    var main: some View {
-        ZStack {
-            ScrollView {
-                SearchBarView($searchText)
-                    .padding(.vertical)
-                    .appropriatePlatformWidth()
+        } else {
+            
+            NavigationView {
                 VStack {
-                
-                        LazyVGrid(columns: columns) {
-                            ForEach(store.images, id: \.id) { photo in
-                                PhotoView(photo: photo)
-                            }
-                            if  !store.images.isEmpty {
-                                ProgressView()
-                                    .frame(width: 0, height: 0, alignment: .bottom)
-                                    .onAppear {
-                                        store.page += 1
-                                        self.store.getNextPage(search: searchText)
-                                    }
-                            }
-                        }
-                   
+                    SearchBarView($searchText)
+                        .padding()
                     Spacer()
                 }
-                .padding()
+                   ZStack {
+                        ScrollView {
+                            photoGrid
+                        }
+                        if store.loading {
+                            ProgressView()
+                                .frame(maxWidth: .infinity, alignment: .center)
+                        }
+                    }
+                   .navigationBarHidden(false)
+                   .navigationBarTitle("Flickr Images", displayMode: .inline)
             }
-            if store.loading {
-                VStack {
-                    ProgressView()
-                }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            .background(Color.black.opacity(0.05)).edgesIgnoringSafeArea(.bottom)
+           
+            .onRotate { orientation in
+                self.orientation = UIDevice.current.orientation
             }
-        }
-        .onRotate { orientation in
-            self.orientation = UIDevice.current.orientation
+            .onAppear {
+                store.loadLocal()
+            }
         }
     }
+    
+    var photoGrid: some View {
+        VStack {
+            
+            LazyVGrid(columns: columns) {
+                ForEach(store.images, id: \.id) { photo in
+                    PhotoView(photo: photo)
+                }
+                if  !store.images.isEmpty {
+                    ProgressView()
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .onAppear {
+                            store.page += 1
+                            self.store.getNextPage(search: searchText)
+                        }
+                }
+            }
+            
+            Spacer()
+        }
+        .padding()
+    }
+    
 }
 
 private struct PhotoView: View {
@@ -110,17 +122,13 @@ private struct PhotoView: View {
     }
     
     var body: some View {
-        
+       
         AsyncImage(url: url) { image in
             image
                 .resizable()
                 .aspectRatio(contentMode: .fill)
         } placeholder: {
-            VStack {
-                ProgressView()
-            }
-            .background(Color.black.opacity(0.05))
-            .cornerRadius(10)
+           Text("")
         }
         .cornerRadius(10)
         .padding(.bottom, 8)
