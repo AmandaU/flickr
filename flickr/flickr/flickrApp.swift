@@ -15,7 +15,7 @@ struct flickrApp: App {
            WindowGroup {
                ZStack {
                    HomeView()
-                       .environmentObject(ImagesStore())
+                       .environmentObject(ImagesStore(apiKey:  Bundle.main.infoDictionary?["API_KEY"] as? String))
                    
                    if launchScreenState.state != .finished {
                        LaunchScreenView()

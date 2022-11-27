@@ -25,8 +25,9 @@ class ImagesStore: ObservableObject {
     private let searchImagesSubject = CurrentValueSubject<String, Never>("")
     private let cacheSearch = "SEARCH"
     
-    public init(api: APIProtocol = ImagesApi()) {
-        self.api = api
+    public init(apiKey: String?) {
+        self.api = ImagesAPI(apiKey: apiKey)
+        
         self.searchImagesSubject
             .removeDuplicates()
             .debounce(for: 0.5, scheduler: RunLoop.main)
@@ -50,7 +51,7 @@ class ImagesStore: ObservableObject {
                         break
                     case .failure(let error ):
                         print(error)
-                        self.photosFetched.send(error.localizedDescription)
+                        self.photosFetched.send("There was a problem fetching the images.")
                     }
                 },
                 receiveValue: {

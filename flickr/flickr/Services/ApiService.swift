@@ -9,9 +9,14 @@ import Foundation
 import Combine
 import UIKit
 
-public class ImagesApi: APIProtocol {
+public class ImagesAPI: APIProtocol {
     
     let apiEndPoint: String = "www.flickr.com"
+    let apiKey: String?
+    
+    init(apiKey: String?) {
+        self.apiKey = apiKey
+    }
  
     struct Response<T> {
         let value: T
@@ -37,14 +42,16 @@ public class ImagesApi: APIProtocol {
     func getImages(search: String, page: Int) -> AnyPublisher<FlickrImages, Error>  {
         //  var request = URLRequest(url:  URL(string: "https://jsonplaceholder.typicode.com/users")!)
         do {
+            
+        guard let apiKey = self.apiKey else {
+            throw APIError.invalidAPIKey
+        }
+            
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
         urlComponents.host = "www.flickr.com"
         urlComponents.path = "/services/rest"
-            
-        guard let apiKey = Bundle.main.infoDictionary?["API_KEY"] as? String else {
-            throw APIError.invalidAPIKey
-        }
+        
         
         var items = [URLQueryItem]()
         items.append(URLQueryItem(name: "method", value: "flickr.photos.search"))

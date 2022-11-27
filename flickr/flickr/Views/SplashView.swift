@@ -43,7 +43,6 @@ struct LaunchScreenView: View {
             updateAnimation()  // Mark 5
         }.opacity(startFadeoutAnimation ? 0 : 1)
             .task {
-                
                 try? await Task.sleep(nanoseconds: 2_000_000_000)
                 self.launchScreenState.dismiss()
             }
@@ -67,7 +66,6 @@ struct LaunchScreenView: View {
             break
         }
     }
-    
 }
 
 struct LaunchScreenView_Previews: PreviewProvider {

@@ -13,6 +13,7 @@ struct HomeView: View {
     @State var update = false
     @State var searchText = ""
     @State var orientation = UIDevice.current.orientation
+    @State var error: String?
     
     var columns: [GridItem] {
         var number = 0
@@ -30,7 +31,6 @@ struct HomeView: View {
     }
     
     var body: some View {
-        
         if Device.isIPhone {
             phoneView
         } else {
@@ -41,26 +41,38 @@ struct HomeView: View {
     var phoneView: some View {
         NavigationView {
             ZStack {
+                
                 ScrollView {
                     SearchBarView($searchText)
                         .padding(.vertical)
                         .appropriatePlatformWidth()
-                   photoGrid
+                    if let error = error {
+                        Text(error)
+                            .font(.title)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                    }
+                    photoGrid
                 }
                 if store.loading {
                     ProgressView()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            
+            .onReceive(store.photosFetched, perform: { error in
+                self.error = error
+            })
             .background(Color.black.opacity(0.05)).edgesIgnoringSafeArea(.bottom)
             .navigationBarHidden(false)
             .navigationBarTitle("Flickr Images")
-           
+            
         }
         .onRotate { orientation in
             self.orientation = UIDevice.current.orientation
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        .background(Color.black.opacity(0.05)).edgesIgnoringSafeArea(.bottom)
         .onAppear {
             store.loadLocal()
         }
@@ -73,18 +85,26 @@ struct HomeView: View {
                     .padding()
                 Spacer()
             }
-               ZStack {
-                    ScrollView {
-                        photoGrid
+            ZStack {
+                ScrollView {
+                    if let error = error {
+                        Text(error)
+                            .font(.title)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                     }
-                    if store.loading {
-                        ProgressView()
-                            .frame(maxWidth: .infinity, alignment: .center)
-                    }
+                    photoGrid
                 }
-               .navigationBarHidden(false)
-               .navigationBarTitle("Flickr Images", displayMode: .inline)
-               
+                if store.loading {
+                    ProgressView()
+                        .frame(maxWidth: .infinity, alignment: .center)
+                }
+            }
+            .onReceive(store.photosFetched, perform: { error in
+                self.error = error
+            })
+            .navigationBarHidden(false)
+            .navigationBarTitle("Flickr Images", displayMode: .inline)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         .background(Color.black.opacity(0.05)).edgesIgnoringSafeArea(.bottom)
@@ -112,25 +132,22 @@ struct HomeView: View {
                         }
                 }
             }
-            
             Spacer()
         }
         .padding()
     }
-    
 }
 
 private struct PhotoView: View {
     @EnvironmentObject var store: ImagesStore
     @State var photo: Photo
     @State var showFullImage = false
-   
+    
     var url: URL {
         URL(string: "https://farm\(photo.farm).static.flickr.com/\(photo.server)/\(photo.id)_\(photo.secret)_q.jpg")!
     }
     
     var body: some View {
-       
         Button {
             showFullImage = true
         } label: {
@@ -139,16 +156,14 @@ private struct PhotoView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fill)
             } placeholder: {
-               Text("")
+                Text("")
             }
             .cornerRadius(10)
             .padding(.bottom, 8)
         }
         .fullScreenCover(isPresented: $showFullImage) {
-           FullImageView(photo: photo)
+            FullImageView(photo: photo)
         }
         .accessibilityIdentifier("photoButton")
-
-       
     }
 }

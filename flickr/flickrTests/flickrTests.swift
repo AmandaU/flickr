@@ -11,8 +11,8 @@ import Combine
 final class flickrTests: XCTestCase {
     private var cancellables: Set<AnyCancellable> = []
     var error = ""
-    let store = ImagesStore()
-    let dummystore = ImagesStore(api: DummyAPI())
+   
+    var store: ImagesStore?
    
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -39,20 +39,26 @@ final class flickrTests: XCTestCase {
     
     func testGetPhotosSuccess() {
         let validation = expectation(description: "FullFill")
-       
-        store.photosFetched.sink { [weak self] error in
+        
+        guard let apiKey = Bundle.main.infoDictionary?["API_KEY"] as? String else {
+            XCTAssertTrue(false)
+            return
+        }
+     
+        store = ImagesStore(apiKey: apiKey)
+        store?.photosFetched.sink { [weak self] error in
                    validation.fulfill()
                }.store(in: &cancellables)
 
         self.waitForExpectations(timeout: 20) { error in
-            XCTAssertTrue(!self.store.images.isEmpty)
+            XCTAssertTrue(!(self.store?.images.isEmpty ?? true))
         }
     }
 
-    func testGetPhotosFailure() {
+    func testGetPhotosFailureWithBadApiKey() {
         let validation = expectation(description: "FullFill")
-       
-        dummystore.photosFetched.sink { [weak self] error in
+        store = ImagesStore(apiKey: nil)
+        store?.photosFetched.sink { [weak self] error in
             self?.error = error ?? ""
             validation.fulfill()
         }.store(in: &cancellables)

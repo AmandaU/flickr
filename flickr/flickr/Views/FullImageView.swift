@@ -38,7 +38,6 @@ struct FullImageView: View {
                 }
                 .accessibilityIdentifier("fullImage")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                
             }
             .background(Color.white.edgesIgnoringSafeArea(.bottom))
             .navigationBarTitle(photo.title, displayMode: .inline)

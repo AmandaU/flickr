@@ -12,5 +12,4 @@ enum APIError: Error {
     case invalidHTTPURLResponse
     case responseStatusError
     case invalidAPIKey
-    case testFail
 }
