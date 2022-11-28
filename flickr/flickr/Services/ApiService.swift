@@ -23,6 +23,8 @@ public class ImagesAPI: APIProtocol {
         let response: URLResponse
     }
 
+    
+    // A generic function which will be usefull when more api service calls are added to the project - right now, a bit of an overkill
     func run<T: Decodable>(_ request: URLRequest, _ decoder: JSONDecoder = JSONDecoder()) -> AnyPublisher<Response<T>, Error> {
         return URLSession.shared
             .dataTaskPublisher(for: request) // 3

@@ -28,6 +28,8 @@ class ImagesStore: ObservableObject {
     public init(apiKey: String?) {
         self.api = ImagesAPI(apiKey: apiKey)
         
+        
+        // Use debounce so that the image search commences when the user stops typing in the search bar for a little bit
         self.searchImagesSubject
             .removeDuplicates()
             .debounce(for: 0.5, scheduler: RunLoop.main)
@@ -39,6 +41,8 @@ class ImagesStore: ObservableObject {
         loadLocal()
     }
     
+    
+    // The main image fetch function
     func getImages(search: String) {
         loading = true
         page = 1
@@ -89,6 +93,8 @@ class ImagesStore: ObservableObject {
         self.searchImagesSubject.send(search)
     }
     
+    
+    //Saving search history
     func saveLocal(search: String) {
         let search = search.trimmingCharacters(in: .whitespacesAndNewlines)
         var searches: [String] = []
@@ -119,6 +125,8 @@ class ImagesStore: ObservableObject {
         URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
     }
     
+    
+    //Download the the image data
     func downloadImage(from url: URL, onDone: @escaping (UIImage) -> Void) {
         print("Download Started")
         getData(from: url) { data, response, error in

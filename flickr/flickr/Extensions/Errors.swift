@@ -7,6 +7,8 @@
 
 import Foundation
 
+
+// The API error
 enum APIError: Error {
   case invalidURL
     case invalidHTTPURLResponse

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// manages the search function
 public struct SearchBarView: View {
     @EnvironmentObject var store: ImagesStore
     
@@ -21,7 +22,7 @@ public struct SearchBarView: View {
     public var body: some View {
         VStack {
             HStack {
-                Image(systemName: "search")
+                Image(systemName: "magnifyingglass")
                     .frame(width: 20, height: 20)
                     .foregroundColor(.black.opacity(0.5))
                 

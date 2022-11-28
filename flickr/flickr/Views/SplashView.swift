@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Just a fancy animation for ther splash
 struct LaunchScreenView: View {
     @EnvironmentObject private var launchScreenState: LaunchScreenStateManager // Mark 1
     

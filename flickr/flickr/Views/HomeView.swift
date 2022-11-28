@@ -30,6 +30,8 @@ struct HomeView: View {
         return  Array(repeating: GridItem(.flexible(), spacing: spacing, alignment: .trailing), count: number)
     }
     
+    
+   
     var body: some View {
         if Device.isIPhone {
             phoneView
@@ -38,6 +40,8 @@ struct HomeView: View {
         }
     }
     
+    
+    // Stack navigation for pahone
     var phoneView: some View {
         NavigationView {
             ZStack {
@@ -78,6 +82,7 @@ struct HomeView: View {
         }
     }
     
+    // Catering for the double panel navigation mechanism for table views
     var tabletView: some View {
         NavigationView {
             VStack {

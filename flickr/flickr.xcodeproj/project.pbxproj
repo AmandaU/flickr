@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA0A33D62934F02F004F42DC /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0A33D52934F02F004F42DC /* ViewModifiers.swift */; };
 		AA22A958293240A30065049A /* FullImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA22A957293240A30065049A /* FullImageView.swift */; };
 		AA22A95B29324D9D0065049A /* ImagesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5F6C37292F9E8B00C6EDF0 /* ImagesStore.swift */; };
 		AA22A95C29324E760065049A /* ApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5F6C3D292FA18700C6EDF0 /* ApiService.swift */; };
@@ -30,7 +31,6 @@
 		AA5F6C43292FA8D400C6EDF0 /* BindingExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5F6C42292FA8D400C6EDF0 /* BindingExtension.swift */; };
 		AA5F6C48292FAC3200C6EDF0 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5F6C47292FAC3200C6EDF0 /* Errors.swift */; };
 		AA5F6C4A292FBE6800C6EDF0 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5F6C49292FBE6800C6EDF0 /* Device.swift */; };
-		AAF94AD62930D6F20015DD4A /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF94AD52930D6F20015DD4A /* ViewModifiers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +51,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AA0A33D52934F02F004F42DC /* ViewModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
 		AA1957012930BD2200939388 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		AA1957022930BDE000939388 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		AA22A957293240A30065049A /* FullImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullImageView.swift; sourceTree = "<group>"; };
@@ -75,7 +76,6 @@
 		AA5F6C42292FA8D400C6EDF0 /* BindingExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BindingExtension.swift; sourceTree = "<group>"; };
 		AA5F6C47292FAC3200C6EDF0 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		AA5F6C49292FBE6800C6EDF0 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
-		AAF94AD52930D6F20015DD4A /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,7 +126,6 @@
 		AA5F6C03292F95D400C6EDF0 /* flickr */ = {
 			isa = PBXGroup;
 			children = (
-				AAF94AD42930D6DE0015DD4A /* Modifiers */,
 				AA1957022930BDE000939388 /* Info.plist */,
 				AA5F6C44292FA91D00C6EDF0 /* Enums */,
 				AA5F6C41292FA8C400C6EDF0 /* Extensions */,
@@ -200,6 +199,7 @@
 		AA5F6C41292FA8C400C6EDF0 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				AA0A33D52934F02F004F42DC /* ViewModifiers.swift */,
 				AA5F6C42292FA8D400C6EDF0 /* BindingExtension.swift */,
 				AA5F6C47292FAC3200C6EDF0 /* Errors.swift */,
 				AA5F6C49292FBE6800C6EDF0 /* Device.swift */,
@@ -212,14 +212,6 @@
 			children = (
 			);
 			path = Enums;
-			sourceTree = "<group>";
-		};
-		AAF94AD42930D6DE0015DD4A /* Modifiers */ = {
-			isa = PBXGroup;
-			children = (
-				AAF94AD52930D6F20015DD4A /* ViewModifiers.swift */,
-			);
-			path = Modifiers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -353,9 +345,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA5F6C4A292FBE6800C6EDF0 /* Device.swift in Sources */,
+				AA0A33D62934F02F004F42DC /* ViewModifiers.swift in Sources */,
 				AA5F6C3B292F9EA800C6EDF0 /* FlickrImage.swift in Sources */,
 				AA5F6C40292FA76500C6EDF0 /* SearchView.swift in Sources */,
-				AAF94AD62930D6F20015DD4A /* ViewModifiers.swift in Sources */,
 				AA5F6C38292F9E8B00C6EDF0 /* ImagesStore.swift in Sources */,
 				AA22A958293240A30065049A /* FullImageView.swift in Sources */,
 				AA5F6C3E292FA18700C6EDF0 /* ApiService.swift in Sources */,

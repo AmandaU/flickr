@@ -10,6 +10,8 @@ import UIKit
 import SwiftUI
 import Combine
 
+
+// Big image view which can be shared
 @available(iOS 14.0, *)
 @available(macCatalyst 14.0, *)
 struct FullImageView: View {
@@ -77,6 +79,7 @@ struct FullImageView: View {
         .contentShape(Rectangle())
     }
     
+    // Mac Catalyst needs a special method to save files to the hard drive. This requires the User Selected File Read Write Capability
     private func onShareClick() {
 #if targetEnvironment(macCatalyst)
         let data = image.jpegData(compressionQuality: 1)
@@ -109,6 +112,8 @@ struct FullImageView: View {
     }
 }
 
+
+// Standard phone share sheet
 struct ShareSheetView: UIViewControllerRepresentable {
     typealias Callback = (_ activityType: UIActivity.ActivityType?, _ completed: Bool, _ returnedItems: [Any]?, _ error: Error?) -> Void
     
